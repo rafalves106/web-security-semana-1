@@ -12,19 +12,30 @@ ENDERECOS = ["https://localhost:8443/", "http://localhost:8080/", "http://localh
 
 def pedir(endereco):
     """Pede a página ao site e devolve o código de status (um numero)."""
-    # >>> PARTE 1: peça a página com urlopen, como no passo 3 da ponte, mas passe também context=CONTEXTO
-    # (já está definido lá em cima; só o laboratório precisa dele). Devolva resposta.status, como no passo 4.
-    return None
+    resposta = urlopen(endereco, context=CONTEXTO)
+    return resposta.status
 
 
 def usa_https(endereco):
     """Devolve True se o endereco usa HTTPS e False se não usa."""
-    # >>> PARTE 2: olhe o começo do endereco, como no passo 5 da ponte
-    return None
+    HTTPS = endereco.startswith("https://")
+    return HTTPS
 
 
 def inspecionar(enderecos):
     print("Inspetor de site")
+    for end in enderecos:
+        print("--- " + end)
+        
+        try:
+            print("código de status: " + str(pedir(end)))
+        except OSError:
+            print("não achei o site; confira o endereço")
+        
+        if usa_https(end):
+            print("usa HTTPS: sim")
+        else:
+            print("usa HTTPS: não")
     # >>> PARTE 3: para cada endereco da lista, mostre "--- " e o endereco.
     # Depois, dentro de um try, mostre "código de status:" e o resultado de pedir(endereco).
     # Se der OSError, mostre "não achei o site; confira o endereço".
